@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ryan Volz <ryan.volz@gmail.com>
+Date: Fri, 17 Feb 2023 12:55:58 -0500
+Subject: [PATCH] Fix segfault caused by dereferencing NULL pointer in
+ interfaceList()
+
+getifaddrs can return structures where the ifa_addr field is NULL. This
+adds a check for that before attempting anything else.
+---
+ InterfacesUnix.cpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/InterfacesUnix.cpp b/InterfacesUnix.cpp
+index c444a53..8e92a62 100644
+--- a/InterfacesUnix.cpp
++++ b/InterfacesUnix.cpp
+@@ -13,6 +13,9 @@ std::vector<interfaceInformation> interfaceList()
+ 	getifaddrs(&addrs);
+ 	for (iloop = addrs; iloop != NULL; iloop = iloop->ifa_next)
+ 	{
++		if (iloop->ifa_addr == NULL)
++			continue;
++
+ 		if (iloop->ifa_addr->sa_family != AF_INET) continue; //just IPv4
+ 
+ 		s4 = (struct sockaddr_in *)(iloop->ifa_addr);
+-- 
+2.38.1
+
