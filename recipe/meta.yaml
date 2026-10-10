@@ -1,4 +1,4 @@
-{% set version = "0.2.0" %}
+{% set version = "0.2.1" %}
 
 package:
   name: soapysdr-module-netsdr
@@ -6,16 +6,17 @@ package:
 
 source:
   url: https://github.com/pothosware/SoapyNetSDR/archive/soapy-netsdr-{{ version }}.tar.gz
-  sha256: 229b727228871220784faa21495fdb366ca708bc5c4bc4dcb5130ea640e13a82
+  sha256: 224d54811c27cf16bc6a48961177c61966ad5a06f4942966d39bf4328a0f852f
   patches:
     - 0001-Fix-segfault-caused-by-dereferencing-NULL-pointer-in.patch
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
     - {{ compiler('cxx') }}
+    - {{ stdlib("c") }}
     - cmake
     - ninja
   host:
@@ -38,8 +39,7 @@ about:
   license_file: License.txt
   summary: 'SoapySDR Support Module for NetSDR protocol'
   description: >
-    The Soapy NetSDR project provides a plugin module to use the NetSDR devices
-    within the SoapySDR API and software that supports SoapySDR.
+    The Soapy NetSDR project provides a plugin module to use the NetSDR devices within the SoapySDR API and software that supports SoapySDR.
   doc_url: https://github.com/pothosware/SoapyNetSDR/wiki
   dev_url: https://github.com/pothosware/SoapyNetSDR
 
