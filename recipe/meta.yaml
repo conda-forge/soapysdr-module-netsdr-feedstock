@@ -7,8 +7,6 @@ package:
 source:
   url: https://github.com/pothosware/SoapyNetSDR/archive/soapy-netsdr-{{ version }}.tar.gz
   sha256: 224d54811c27cf16bc6a48961177c61966ad5a06f4942966d39bf4328a0f852f
-  patches:
-    - 0001-Fix-segfault-caused-by-dereferencing-NULL-pointer-in.patch
 
 build:
   number: 0
