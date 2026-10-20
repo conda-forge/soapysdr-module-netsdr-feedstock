@@ -1,0 +1,51 @@
+schema_version: 1
+
+context:
+  version: "0.2.1"
+
+package:
+  name: soapysdr-module-netsdr
+  version: ${{ version }}
+
+source:
+  url: https://github.com/pothosware/SoapyNetSDR/archive/soapy-netsdr-${{ version }}.tar.gz
+  sha256: 224d54811c27cf16bc6a48961177c61966ad5a06f4942966d39bf4328a0f852f
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - ${{ compiler("cxx") }}
+    - ${{ stdlib("c") }}
+    - cmake
+    - ninja
+  host:
+    - soapysdr
+
+tests:
+  - package_contents:
+      strict: true
+      files:
+        - if: not win
+          then: lib/SoapySDR/modules${{ soapysdr }}/libnetSDRSupport.so
+          else: Library/lib/SoapySDR/modules${{ soapysdr }}/netSDRSupport.dll
+  - script:
+      - SoapySDRUtil --info
+      - if: not win
+        then: SoapySDRUtil --info | grep netSDRSupport
+        else: SoapySDRUtil --info | findstr /l netSDRSupport
+
+about:
+  license: MIT
+  license_file: License.txt
+  summary: SoapySDR Support Module for NetSDR protocol
+  description: >
+    The Soapy NetSDR project provides a plugin module to use the NetSDR devices within the SoapySDR API and software that supports SoapySDR.
+  homepage: https://github.com/pothosware/SoapyNetSDR/wiki
+  repository: https://github.com/pothosware/SoapyNetSDR
+  documentation: https://github.com/pothosware/SoapyNetSDR/wiki
+
+extra:
+  recipe-maintainers:
+    - ryanvolz
